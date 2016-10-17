@@ -14,15 +14,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let kRedSection: Int = 0
     let kBlueSection: Int = 1
     
+    // 刚加的test
+    let kGreenSection: Int = 3
+    
+    
     let redFlowers: [String] = ["ihead_007", "ihead_005", "ihead_006", "ihead_008"]
     let blueFlowers: [String] = ["ihead_005", "ihead_006" ,"ihead_008", "ihead_007", "ihead_005"]
     
     // MARK: ---UITableViewDataSource===
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return kSectionCount
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case kRedSection:
             return redFlowers.count
@@ -34,7 +38,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case kRedSection:
             return "Red"
@@ -45,14 +50,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("flowerCell")! as UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "flowerCell")! as UITableViewCell
         
-        switch (indexPath.section) {
+        switch ((indexPath as NSIndexPath).section) {
         case kRedSection:
-            cell.textLabel!.text = redFlowers[indexPath.row]
+            cell.textLabel!.text = redFlowers[(indexPath as NSIndexPath).row]
         case kBlueSection:
-            cell.textLabel!.text = blueFlowers[indexPath.row]
+            cell.textLabel!.text = blueFlowers[(indexPath as NSIndexPath).row]
         default:
             cell.textLabel!.text = "Unkown"
         }
@@ -63,26 +68,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return cell
     }
     
+    
     // MARK: ====UITableViewDelegate===
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var flowerMessage: String
         
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
         case kRedSection:
-            flowerMessage = "You chose the red flower - \(redFlowers[indexPath.row])"
+            flowerMessage = "You chose the red flower - \(redFlowers[(indexPath as NSIndexPath).row])"
         case kRedSection:
-            flowerMessage = "hahhahh - \(blueFlowers[indexPath.row])"
+            flowerMessage = "hahhahh - \(blueFlowers[(indexPath as NSIndexPath).row])"
         default:
             flowerMessage = "I have no idear what you chose?"
         }
         
-        let alertController = UIAlertController(title: "Flower Selected", message: flowerMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        let alertController = UIAlertController(title: "Flower Selected", message: flowerMessage, preferredStyle: UIAlertControllerStyle.alert)
         
-        let alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil)
+        let alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
         
         alertController.addAction(alertAction)
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
